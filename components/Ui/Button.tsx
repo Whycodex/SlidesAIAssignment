@@ -12,7 +12,7 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className="text-white bg-black p-2 rounded w-full hover:bg-slate-900"
+      className="text-white text-sm bg-black p-2 rounded w-full hover:bg-slate-900"
     >
       {children}
     </button>
