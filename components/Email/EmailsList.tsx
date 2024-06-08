@@ -4,6 +4,9 @@ import { getEmails } from "@/lib/gmail";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { Button } from "../Ui/Button";
+import { ClassifyEmails } from "@/lib/openai";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { CountFilter } from "./CountFilter";
 
 export const EmailsList = () => {
   const { data: session } = useSession();
@@ -11,9 +14,13 @@ export const EmailsList = () => {
     { id: any; snippet: any; subject: any }[]
   >([]);
   const [emailsToShow, setEmailsToShow] = useState(5);
-  const [showClassification,setShowClassification] = useState(false);
+  const [showClassification, setShowClassification] = useState(false);
+  const [classification, setClassification] = useState<Record<string, string>>(
+    {}
+  );
+  const [apiKey, setApiKey] = useLocalStorage("openai-api-key", "");
 
-  const choiceArray = [5, 10, 15, 20, 25, 30];
+  let emailString = "";
 
   useEffect(() => {
     // @ts-ignore
@@ -27,33 +34,30 @@ export const EmailsList = () => {
     }
   }, [session]);
 
-  function handleOnClassify() {
+  async function handleOnClassify() {
     setShowClassification(true);
     console.log(emailString);
+    ClassifyEmails(emailString, apiKey).then((res: any) => {
+      setClassification(JSON.parse(res));
+    });
   }
-  let emailString = "";
+
   return (
     <>
       <div className="p-4 m-4">
         <div className="flex w-full items-center justify-between mb-4 px-4 gap-x-2">
-          <select
-            value={emailsToShow}
-            onChange={(e) => {setEmailsToShow(parseInt(e.target.value)); setShowClassification(false)}}
-            className="text-white text-sm bg-black p-2 rounded hover:bg-slate-900"
-          >
-            {choiceArray.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <CountFilter
+            emailsToShow={emailsToShow}
+            setEmailsToShow={setEmailsToShow}
+            setShowClassification={setShowClassification}
+          />
           <div>
             <Button onClick={handleOnClassify}>Classify</Button>
           </div>
         </div>
         {emails.length > 0 ? (
-          emails.slice(0, emailsToShow).map((email,index) => {
-            emailString += index + "-" + email.snippet.trim() + '\n\n';
+          emails.slice(0, emailsToShow).map((email, index) => {
+            emailString += index + "-" + email.snippet.trim() + "\n\n";
             return (
               <div
                 key={email.id}
@@ -64,9 +68,9 @@ export const EmailsList = () => {
                     <h3 className="font-bold">{email.subject}</h3>
                     <p>{email.snippet}</p>
                   </div>
-                  {
-                    showClassification ? <h1>testing</h1> : null
-                  }
+                  {showClassification ? (
+                    <h1>{classification[`${index.toString()}`]}</h1>
+                  ) : null}
                 </div>
               </div>
             );

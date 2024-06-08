@@ -1,6 +1,7 @@
 "use client";
 
 import { EmailsList } from "@/components/Email/EmailsList";
+import { ApiInput } from "@/components/Ui/ApiInput";
 import { Button } from "@/components/Ui/Button";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -54,8 +55,11 @@ export default function Dashboard() {
             <p className="text-md mb-4">{user.email}</p>
         </div>
         </div>
-        <div>
-          <Button onClick={handleSignOut}>Sign out</Button>
+        <div className="flex items-start gap-x-2">
+          <ApiInput />
+          <div>
+            <Button onClick={handleSignOut}>Sign out</Button>
+          </div>
         </div>
       </div>
       <EmailsList />
