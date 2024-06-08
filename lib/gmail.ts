@@ -1,20 +1,34 @@
-import { google } from 'googleapis';
+"use server";
 
-export async function getEmails(accessToken:any) {
-  const oauth2Client = new google.auth.OAuth2();
-  oauth2Client.setCredentials({ access_token: accessToken });
+import { google } from "googleapis";
 
-  const gmail = google.gmail({ version: 'v1', auth: oauth2Client });
+export async function getEmails(accessToken: string) {
+  const auth = new google.auth.OAuth2();
+  auth.setCredentials({ access_token: accessToken });
 
-  const response = await gmail.users.messages.list({ userId: 'me', maxResults: 10 });
-  const messages = response.data.messages || [];
+  const gmail = google.gmail({ version: "v1", auth });
+  const response = await gmail.users.messages.list({ userId: "me", maxResults: 5 });
 
-  const emailPromises = messages.map(async (message) => {
-    // @ts-ignore
-    const msg = await gmail.users.messages.get({ userId: 'me', id: message.id });
-    // @ts-ignore
-    return msg.data;
-  });
+  if (!response.data.messages) {
+    throw new Error("No messages found.");
+  }
 
-  return Promise.all(emailPromises);
+  const emails = await Promise.all(
+    response.data.messages.map(async (message) => {
+      const msg = await gmail.users.messages.get({
+        userId: "me",
+        id: message.id as string,
+      });
+      return {
+        id: message.id,
+        snippet: (msg as any)?.data?.snippet || "No Snippet",
+        subject:
+          msg?.data?.payload?.headers?.find(
+            (header: any) => header.name === "Subject"
+          )?.value || "No Subject",
+      };
+    })
+  );
+
+  return emails;
 }

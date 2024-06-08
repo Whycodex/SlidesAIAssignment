@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "googleapis": "^139.0.0",
+    "net": "^1.0.2",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "openai": "^4.48.2",

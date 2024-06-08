@@ -1,7 +1,9 @@
 "use client";
 
 import { EmailsList } from "@/components/Email/EmailsList";
+import { Button } from "@/components/Ui/Button";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,6 +28,11 @@ export default function Dashboard() {
   const router = useRouter();
 
   const { data: session } = useSession();
+  const user = {
+    name: session?.user?.name,
+    email: session?.user?.email,
+    image: session?.user?.image
+  }
 
   useEffect(() => {
     if (!session) {
@@ -40,13 +47,16 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center mt-4 min-h-screen py-2">
       <div className="flex items-center w-full justify-between px-4 border-b-2">
-        <h1 className="text-4xl font-bold mb-4 mr-2">Dashboard</h1>
-        <button
-          className="border border-slate-950 p-2 rounded text-slate-950"
-          onClick={handleSignOut}
-        >
-          Sign out
-        </button>
+        <div className="flex">
+          <img src={user.image!} alt="image" className="w-[60px] h-[60px] mr-2 rounded-full"/>
+          <div>
+            <p className="text-xl font-bold">{user.name}</p>
+            <p className="text-md mb-4">{user.email}</p>
+        </div>
+        </div>
+        <div>
+          <Button onClick={handleSignOut}>Sign out</Button>
+        </div>
       </div>
       <EmailsList />
     </div>

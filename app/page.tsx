@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/Ui/Button";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -11,7 +12,7 @@ const Login = () => {
   const router = useRouter();
   console.log(session);
   if (session.status === "loading") {
-    return <h1>Loading</h1>;
+    return <h1 className="flex items-center justify-center h-full">Loading...</h1>;
   }
   if (session.status === "authenticated") {
     router.push("/dashboard");
@@ -22,20 +23,17 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-x-2 items-center justify-center">
+    <div className="w-full h-full flex flex-col gap-y-4 items-center justify-center">
+      <div className="w-[225px]">
+        <Button onClick={()=>signIn("google")}>Sign in with Google</Button>
+      </div>
       <input
         type="text"
-        placeholder="Enter OpenAI API Key"
+        placeholder="Enter Your OpenAI API Key"
         value={apiKey}
         onChange={handleApiKeyChange}
-        className="border rounded p-2 mb-4"
+        className="border border-black rounded w-[225px] p-2 mb-4"
       />
-      <button
-        className="border border-slate-950 p-2 rounded text-slate-950"
-        onClick={() => signIn("google")}
-      >
-        Sign in with Google
-      </button>
     </div>
   );
 };
