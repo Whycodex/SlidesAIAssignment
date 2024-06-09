@@ -9,12 +9,15 @@ export const ApiInput = () => {
   };
 
   return (
-    <input
-      type="text"
-      placeholder="Enter Your OpenAI API Key"
-      value={apiKey}
-      onChange={handleApiKeyChange}
-      className="border border-black rounded w-[225px] h-[35px] p-2 text-sm"
-    />
+    <form>
+      <input
+        type="text"
+        required
+        placeholder="Enter Your OpenAI API Key"
+        value={apiKey}
+        onChange={handleApiKeyChange}
+        className="border border-black rounded w-[225px] h-[35px] p-2 text-sm"
+      />
+    </form>
   );
 };

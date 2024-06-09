@@ -38,7 +38,14 @@ export const EmailsList = () => {
     setShowClassification(true);
     console.log(emailString);
     ClassifyEmails(emailString, apiKey).then((res: any) => {
-      setClassification(JSON.parse(res));
+      if (res) {
+        setClassification(JSON.parse(res));
+        console.log(Object.keys(classification).length);
+      } else {
+        for (let i = 0; i < emailsToShow; i++) {
+          setClassification((prev) => ({ ...prev, [`${i}`]: "Unclassified" }));
+        }
+      }
     });
   }
 
@@ -68,8 +75,10 @@ export const EmailsList = () => {
                     <h3 className="font-bold">{email.subject}</h3>
                     <p>{email.snippet}</p>
                   </div>
-                  {showClassification ? (
-                    <h1>{classification[`${index.toString()}`]}</h1>
+                  {showClassification &&
+                  classification &&
+                  Object.keys(classification).length == emailsToShow ? (
+                    <h1>{classification[`${index}`]}</h1>
                   ) : null}
                 </div>
               </div>
