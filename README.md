@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# About this project
 
-## Getting Started
+This is a Next.js project and it uses all the best practises and industry standards of writing code. It is an assignment project for Slides AI that contains google authentication, gmail API integration, openai API integration. It basically fetches emails from your inbox and classifies them into various categories.
 
-First, run the development server:
+The key things achieved by me through this project were -
 
-```bash
+- NextAuth (Google OAuth using GCP)
+- Gmail API integration
+- OpenAI API integration
+
+
+
+# For running this project follow the below steps
+
+Step 1 - Goto your desired file location and open terminal.
+
+
+
+Step 2 - Clone the project here by using the following command
+
+git clone https://github.com/Whycodex/SlidesAIAssignment.git
+
+
+
+Step 3 - Now change directory from the terminal using the following command
+
+cd SlidesAIAssignment/
+
+
+
+Step 4 - Open this folder inside a code editor of your choice by using the following command (you can use vs code for it’s extensive features) and make sure to be inside the SidesAIAssignment folder
+
+code .
+
+
+
+Step 5 - Create a .env file in the root directory and copy the content from .env.example file. Now put in your secrets here. Get Google Client ID and Google Client Secret from Google Cloud Platform and you can use the same NEXTAUTH_SECRET and NEXTAUTH_URL
+
+
+
+Step 6 - Now open the terminal and install all the dependencies by using
+
+npm install
+
+
+
+Step 7 - After installing all the dependencies, simply run the following command
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Screenshots
+![image1](image1.png)
+![image2](image2.png)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Deployed link to the app
+https://whycodex-slides-ai.vercel.app/

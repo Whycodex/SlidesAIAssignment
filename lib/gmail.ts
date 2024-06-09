@@ -7,7 +7,7 @@ export async function getEmails(accessToken: string) {
   auth.setCredentials({ access_token: accessToken });
 
   const gmail = google.gmail({ version: "v1", auth });
-  const response = await gmail.users.messages.list({ userId: "me", maxResults: 10 });
+  const response = await gmail.users.messages.list({ userId: "me", maxResults: 30 });
 
   if (!response.data.messages) {
     throw new Error("No messages found.");
